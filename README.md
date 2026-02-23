@@ -64,7 +64,7 @@ http://127.0.0.1:5000
 ## Notes for Offline Deployment
 - The UI uses Google Fonts (Rajdhani, Source Serif 4, JetBrains Mono) via a CDN link.
 - For **fully offline** deployment with no internet on the machine:
-  1. Download the font files from Google Fonts
+  1. Download the font files from Google Fonts.
   2. Place them in `static/fonts/`
   3. Update the `<link>` tag in `templates/index.html` to reference local font files using `@font-face`
   
