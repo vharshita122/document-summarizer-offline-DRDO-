@@ -71,7 +71,8 @@ http://127.0.0.1:5000
   The app will still function normally without fonts — system fallback fonts will be used.
 
 ---
-
+## Deployed Link
+ https://document-summarizer-offline-drdo-ml.onrender.com
 ## File Structure
 ```
 drdo_word_summarizer/
