@@ -1,6 +1,5 @@
 import os
 import re
-import json
 from flask import Flask, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 import pdfplumber
@@ -22,7 +21,7 @@ STOPWORDS = set([
     'very','just','also','about','up','out','if','then','there','when','where',
     'which','who','whom','how','all','both','few','more','most','other','some',
     'any','only','same','own','not','no','nor','he','she','they','we','you','i',
-    'its','our','their','your','his','her','my','am','us','me','him',
+    'our','their','your','his','her','my','am','us','me','him',
     'what','page','figure','table','section','chapter','note','example','see',
 ])
 
@@ -54,42 +53,89 @@ def split_into_sentences(text):
         result.extend(parts)
     return [s for s in result if len(s) > 5]
 
+# ─────────────────────────────────────────────
+#  HEADING DETECTION
+# ─────────────────────────────────────────────
+
 def is_heading(line):
+    """Strict heading detection to get correct topic headings."""
     line = line.strip()
-    if not line or len(line) > 120:
+    if not line or len(line) > 100:
         return False
-    if line.isupper() and len(line) > 3:
+    # Skip lines that are clearly sentences (contain verb patterns)
+    if re.search(r'\b(is|are|was|were|has|have|had|will|would|can|could|should)\b.{10,}', line):
+        return False
+    # Numbered heading: 1. Title or 1.1 Title
+    if re.match(r'^\d+[\.\d]*\s+[A-Za-z]', line):
         return True
-    if re.match(r'^\d+[\.\d]*\s+[A-Z]', line):
+    # ALL CAPS (min 4 chars, max 8 words)
+    if line.isupper() and 3 < len(line) <= 80 and len(line.split()) <= 8:
         return True
+    # Ends with colon, short
+    if line.endswith(':') and len(line.split()) <= 7 and len(line) > 4:
+        return True
+    # Title Case: most words capitalized, no ending period, short
     words = line.split()
-    if (len(words) <= 10 and not line.endswith('.') and
-            sum(1 for w in words if w and w[0].isupper()) >= len(words) * 0.65 and len(line) > 4):
-        return True
-    if line.endswith(':') and len(words) <= 8:
+    cap_count = sum(1 for w in words if w and w[0].isupper())
+    if (3 <= len(words) <= 8 and
+            not line.endswith('.') and
+            cap_count >= len(words) * 0.7):
         return True
     return False
 
-def is_definition_sentence(s):
-    patterns = [
-        r'\b(is defined as|is called|refers to|stands for|denotes|represents)\b',
-        r'\b(defined as|known as|also called|abbreviated as)\b',
-        r'\bis an?\s+\w',
-        r'\bare the\s+\w',
-        r'\bis the\s+\w',
-    ]
-    return any(re.search(p, s, re.IGNORECASE) for p in patterns)
+# ─────────────────────────────────────────────
+#  CONCISE POINT EXTRACTION
+# ─────────────────────────────────────────────
 
-def is_key_point(s):
-    patterns = [
-        r'\b(important|key|note that|remember|critical|essential|must|always|never)\b',
-        r'\b(advantage|disadvantage|feature|property|characteristic|function|purpose)\b',
-        r'\b(used for|used to|enables|allows|provides|performs|generates|supports)\b',
-        r'\b\d+[\-\s]bit\b',
-        r'\b(step \d|phase \d)',
-        r'^\s*[\-\•\*]\s*',
+def condense_sentence(sentence):
+    """
+    Shorten a sentence into a concise study point.
+    - Remove filler phrases
+    - Keep core meaning
+    - Max ~20 words
+    """
+    s = sentence.strip()
+
+    # Remove common filler starts
+    fillers = [
+        r'^(it is|it was|there is|there are|this is|this was|we can say that|note that|it should be noted that|it must be noted that)\s+',
+        r'^(in other words|that is to say|as mentioned above|as stated above)\s*,?\s*',
+        r'^(therefore|thus|hence|so|consequently|as a result),?\s+',
     ]
-    return any(re.search(p, s, re.IGNORECASE) for p in patterns)
+    for f in fillers:
+        s = re.sub(f, '', s, flags=re.IGNORECASE).strip()
+
+    # Capitalize first letter
+    if s:
+        s = s[0].upper() + s[1:]
+
+    # If still too long (>22 words), trim at a natural break
+    words = s.split()
+    if len(words) > 22:
+        # Try to cut at a comma or semicolon within first 22 words
+        short = ' '.join(words[:22])
+        cut = max(short.rfind(','), short.rfind(';'))
+        if cut > 20:
+            s = short[:cut].strip()
+        else:
+            s = short.strip()
+        if not s.endswith('.'):
+            s += '.'
+
+    return s
+
+def is_definition(s):
+    return bool(re.search(
+        r'\b(is defined as|is called|refers to|stands for|denotes|known as|abbreviated as|is an?\s|are the\s|is the\s)\b',
+        s, re.IGNORECASE))
+
+def is_key_fact(s):
+    return bool(re.search(
+        r'\b(used for|used to|enables|allows|provides|performs|generates|supports|'
+        r'advantage|disadvantage|feature|property|function|purpose|'
+        r'important|key|must|always|never|critical|essential|\d+[\-\s]bit|'
+        r'step \d|phase \d|type of|kind of|consist|contain|include)\b',
+        s, re.IGNORECASE))
 
 def build_word_freq(text):
     words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())
@@ -104,98 +150,126 @@ def score_sentence(s, word_freq):
     words = re.findall(r'\b[a-zA-Z]{3,}\b', s.lower())
     score = sum(word_freq.get(w, 0) for w in words if w not in STOPWORDS)
     length = len(words)
-    if length < 4:   score *= 0.3
-    elif length > 50: score *= 0.6
-    if is_definition_sentence(s): score *= 1.9
-    if is_key_point(s):           score *= 1.5
+    if length < 4:    score *= 0.2
+    elif length > 40: score *= 0.5
+    if is_definition(s):  score *= 2.0
+    if is_key_fact(s):    score *= 1.6
     return score
 
-def extract_definitions(sentences):
-    defs = [s.strip() for s in sentences if is_definition_sentence(s) and len(s.split()) >= 5]
+def extract_concise_points(sentences, word_freq, max_defs=8, max_kp=12):
+    """Extract and condense definitions + key points separately."""
+    definitions = []
+    key_points  = []
     seen = set()
-    result = []
-    for d in defs:
-        k = d.lower()[:60]
-        if k not in seen:
-            seen.add(k)
-            result.append(d)
-    return result[:20]
 
-def extract_key_points(sentences, word_freq):
-    scored = [(s, score_sentence(s, word_freq)) for s in sentences if len(s.split()) >= 4]
-    scored.sort(key=lambda x: x[1], reverse=True)
-    seen = set()
-    result = []
-    for s, _ in scored:
-        k = s.lower().strip()[:80]
-        if k not in seen:
-            seen.add(k)
-            result.append(s.strip())
-        if len(result) >= 30:
+    # Score all sentences
+    scored = sorted(sentences, key=lambda s: score_sentence(s, word_freq), reverse=True)
+
+    for s in scored:
+        if len(s.split()) < 4:
+            continue
+        norm = s.lower()[:60]
+        if norm in seen:
+            continue
+        seen.add(norm)
+
+        point = condense_sentence(s)
+        if not point:
+            continue
+
+        if is_definition(s) and len(definitions) < max_defs:
+            definitions.append(point)
+        elif is_key_fact(s) and len(key_points) < max_kp:
+            key_points.append(point)
+        elif len(key_points) < max_kp and score_sentence(s, word_freq) > 0.3:
+            key_points.append(point)
+
+        if len(definitions) >= max_defs and len(key_points) >= max_kp:
             break
-    return result
+
+    return definitions, key_points
+
+# ─────────────────────────────────────────────
+#  SECTION PARSER
+# ─────────────────────────────────────────────
 
 def parse_sections(raw_text):
     lines = [l.strip() for l in raw_text.split('\n')]
     sections = []
-    current_title = "Overview"
+    current_title = None
     current_lines = []
+
     for line in lines:
         if not line:
             continue
         if is_heading(line):
-            if current_lines:
+            if current_lines and current_title:
                 sections.append({'title': current_title, 'lines': current_lines})
-            current_title = line.rstrip(':')
+            current_title = line.rstrip(':').strip()
             current_lines = []
         else:
+            if current_title is None:
+                current_title = "Overview"
             current_lines.append(line)
-    if current_lines:
+
+    if current_lines and current_title:
         sections.append({'title': current_title, 'lines': current_lines})
-    return sections if sections else [{'title': 'Full Content', 'lines': lines}]
 
-def section_to_notes(section, word_freq):
-    raw = ' '.join(section['lines'])
-    sentences = split_into_sentences(raw)
-    bullet_lines = [l for l in section['lines'] if re.match(r'^\s*[\-\•\*\d\.]\s*.+', l)]
-    definitions = extract_definitions(sentences)
-    all_candidates = sentences + [b for b in bullet_lines if b not in sentences]
-    key_points = extract_key_points(all_candidates, word_freq)
-    key_points_clean = [k for k in key_points if k not in definitions]
-    return {
-        'title': section['title'],
-        'definitions': definitions,
-        'key_points': key_points_clean[:20],
-        'sentence_count': len(sentences),
-    }
-
-def generate_structured_notes(text):
-    word_freq = build_word_freq(text)
-    sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
-    key_topics = [w for w, _ in sorted_words if len(w) > 3][:15]
-    sections = parse_sections(text)
+    # Merge tiny sections into previous
     merged = []
     for sec in sections:
         if merged and len(sec['lines']) < 3:
             merged[-1]['lines'].extend(sec['lines'])
         else:
             merged.append(sec)
+
+    return merged if merged else [{'title': 'Document Notes', 'lines': lines}]
+
+# ─────────────────────────────────────────────
+#  MAIN NOTE GENERATOR
+# ─────────────────────────────────────────────
+
+def generate_structured_notes(text):
+    word_freq = build_word_freq(text)
+
+    # Key topics
+    sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
+    key_topics = [w for w, _ in sorted_words if len(w) > 3][:15]
+
+    sections = parse_sections(text)
     note_sections = []
-    for sec in merged:
-        ns = section_to_notes(sec, word_freq)
-        if ns['definitions'] or ns['key_points']:
-            note_sections.append(ns)
+
+    for sec in sections:
+        raw = ' '.join(sec['lines'])
+        sentences = split_into_sentences(raw)
+        # Also pick up bullet-style short lines
+        bullets = [l for l in sec['lines']
+                   if re.match(r'^\s*[\-\•\*]\s*.+', l) and len(l.split()) >= 3]
+        all_candidates = sentences + [b for b in bullets if b not in sentences]
+
+        defs, kps = extract_concise_points(all_candidates, word_freq)
+
+        if defs or kps:
+            note_sections.append({
+                'title': sec['title'],
+                'definitions': defs,
+                'key_points': kps,
+                'sentence_count': len(sentences),
+            })
+
+    # Fallback: no sections detected
     if not note_sections:
         all_sentences = split_into_sentences(text)
-        global_defs = extract_definitions(all_sentences)
-        global_kp   = extract_key_points(all_sentences, word_freq)
+        defs, kps = extract_concise_points(all_sentences, word_freq)
         note_sections = [{
             'title': 'Study Notes',
-            'definitions': global_defs[:15],
-            'key_points': [k for k in global_kp if k not in global_defs][:25],
+            'definitions': defs,
+            'key_points': kps,
             'sentence_count': len(all_sentences),
         }]
+
     total_points = sum(len(s['definitions']) + len(s['key_points']) for s in note_sections)
+
     return {
         'sections': note_sections,
         'key_topics': key_topics,
@@ -204,6 +278,10 @@ def generate_structured_notes(text):
         'total_points': total_points,
         'section_count': len(note_sections),
     }
+
+# ─────────────────────────────────────────────
+#  WORD SEARCH
+# ─────────────────────────────────────────────
 
 def find_word_context(text, word):
     word_lower = word.lower().strip()
@@ -224,6 +302,10 @@ def find_word_context(text, word):
         "primary_context": primary, "supporting_contexts": supporting,
         "total_sentences_found": len(matched_sentences),
     }, frequency
+
+# ─────────────────────────────────────────────
+#  FLASK ROUTES
+# ─────────────────────────────────────────────
 
 @app.route('/')
 def index():
