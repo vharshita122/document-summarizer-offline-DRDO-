@@ -1,0 +1,913 @@
+Continuing Education Programme (CEP) on “Advanced
+Piezoelectric Materials and Devices”
+
+Solid State Physics Laboratory (SSPL), DRDO, Delhi, September 17-19, 2025
+
+Determination of electromechanical parameters of piezoelectric ceramics using vector impedance spectroscopy
+
+Dr Anoop Kumar Shukla, Associate Professor, Department of Physics, Amity Institute of Applied Sciences,
+Amity University Uttar Pradesh, Noida, G B Nagar. E Mail: akshukla@amity.edu
+
+
+Contents
+
+
+Piezoelectric effect
+Vector – Impedance Characterization of a Piezoelectric Radial Mode Resonator
+Evaluation of electromechanical parameters through equivalent circuit analysis
+Evaluation of electromechanical parameters through direct measurement of series and parallel resonance frequencies
+Comparison of results obtained from two approaches
+Some ongoing work on lead-free materials materials in our group
+Few applications of piezoelectric materials
+
+
+	Piezoelectric Effect	
+
+Discovered in 1880 by the brothers Pierre Curie and Jacques Curie
+There are certain materials which become polarized under mechanical stress
+A potential difference is created due to mechanical stress applied in certain directions
+Piezoelectric Effect: Pressure – Electricity
+Material must be non-centrosymmetric
+Quartz, Lithium Niobate, Barium Titanate, Lead Zirconate Titanate
+
+	Direct piezoelectric effect (Generator Action)	
+
+
+
+Change in surface charge density due to applied mechanical
+stress
+Contraction and elongation of material produce opposite charges on a particular face
+The developed polarization is directly proportional to the stress
+First order approximation
+𝐷 = 𝑑𝑇, d is piezoelectric charge constant
+D is dielectric displacement (C/m2), T is applied stress (N/m2)
+d is charge constant (C/N)
+
+	Mechanical to Electrical Energy Conversion	
+
+
+Centrosymmetric crystals do not produce polarization under mechanical stress
+After compression or elongation, the center of symmetry does not change and hence P = 0
+Consider a non-centrosymmetric hexagonal unit cell
+F = 0, the centers of mass for positive and negative ions
+coincide.
+F is applied in Y-direction centers of mass for positive and negative ions shift leading to a net dipole moment P along y.
+F is applied along X, which may not produce net dipole moment in X-direction
+
+
+
+
+
+
+
+
+
+
+
+A
+
+
+
+O
+
+
+B
+
+
+(a)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+P = 0
+
+
+
+
+
+
+
+
+
+
+
+
+y
+
+
+
+
+
+
+A''
+
+
+
+
+
+
+
+
+B''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+x
+
+
+
+
+
+
+
+P = 0
+P
+
+
+
+
+(c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(b)
+
+The net dipole moment may be observed along Y-direction
+Picture courtesy From Principles of Electronic Materials and Devices, Third Edition, S.O. Kasap (© McGraw-Hill, 2005)
+
+	Piezoelectric Coupling Coefficients	
+
+The piezoelectric materials convert the mechanical energy to electrical energy
+Application of electric field produces mechanical strain in the piezoelectric
+material
+Piezoelectric materials are electromechanical transducers
+The	energy	conversion	in	piezoelectric	materials	is	characterized	by
+piezoelectric coupling factor (k)
+
+𝑘2 = 𝑒𝑙𝑒𝑐𝑡𝑟𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦 𝑐𝑜𝑛𝑣𝑒𝑟𝑡𝑒𝑑 𝑡𝑜 𝑚𝑒𝑐ℎ𝑎𝑛𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦	or
+𝑖𝑛𝑝𝑢𝑡 𝑒𝑙𝑒𝑐𝑡𝑟𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦
+
+𝑘2 = 𝑚𝑒𝑐ℎ𝑎𝑛𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦 𝑐𝑜𝑛𝑣𝑒𝑟𝑡𝑒𝑑 𝑡𝑜 𝑒𝑙𝑒𝑐𝑡𝑟𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦
+𝑖𝑛𝑝𝑢𝑡 𝑚𝑒𝑐ℎ𝑎𝑛𝑖𝑐𝑎𝑙 𝑒𝑛𝑒𝑟𝑔𝑦
+
+
+	Efficiency and charge constant	
+
+
+
+
+
+	Piezoelectric voltage constant	
+
+The induced electric field E in the material is related to the applied stress T
+Parameter relating E and T is known as piezoelectric
+voltage constant (g)
+The voltage constant is defined as 𝑔 =	𝑑
+𝗌𝑜𝗌𝑟
+The piezoelectric voltage constant is important figure of merit for electromechanical sensor applications and piezoelectric energy harvesting devices
+
+	Converse Piezoelectric Effect (Motor Action)	
+
+
+
+
+
+A mechanical strain is observed under application of an
+electric field
+Material	exhibit	expansion	or	contraction	depending upon the direction of the electric field
+The strain is directly proportional to the applied field
+𝑆 = 𝑑𝐸
+d is piezoelectric charge constant (m/V)
+
+
+
+
+
+
+
+
+
+
+V0
+
+
+
+𝑑 =
+𝑆Τ𝐸 =
+𝐷Τ𝑇same for both direct and converse effects
+
+	Piezoelectric constitutive equations	
+
+
+In	piezoelectric	effect,	the	elastic	variables	(T	and	S)are	related	to	the electrical variable (D and E)
+The constitutive equations for direct and converse piezoelectric effects can be expressed as
+𝑫 = 𝒅𝑻 + 𝜺𝑻𝑬, here 𝜺𝑻is the permittivity under constant stress (usually zero)
+𝑺 = 𝒔𝑬𝑻 + 𝒅𝑬, here 𝒔𝑬is the elastic compliance under constant electric field (usually zero)
+
+	Polarization and electric displacement tensors	
+
+
+
+
+
+
+
+
+	Piezoelectric Coefficient tensor	
+
+Application of a mechanical stress T produces a strain S and
+Z	3
+electrical polarization P
+Similarly application of an electric field E causes an electric polarization P and strain S
+𝑃𝑖 = σ𝑗 𝑑𝑖𝑗𝑇𝑗, 𝑆𝑖𝑗 = σ𝑖 𝑑𝑖𝑗𝐸𝑖, (i = 1,2,3, j=1,2,3,4,5,6)
+A	piezoelectric	material	can	be	described	by	a	matrix	of
+electromechanical coefficient
+Piezoelectric coefficients, elastic constants, and permittivity are	1
+all tensors	X	4
+Permittivity- Second Rank, Piezoelectric Coefficient-Third Rank
+and Elastic compliance-Fourth Rank tensors
+Axes notation, Cartesian System X-, Y- and Z- are 1, 2 and 3
+The shear effects are represented as 4, 5 and 6
+
+
+
+
+
+
+Vector Impedance Characterization of a Piezoelectric Ceramic Resonator
+
+Impedance/Admittance-Phase measurement
+
+
+
+
+
+
+Material: Pb(Zr0.57, Ti0.43)O3 + 6 at % of lanthanum
+
+Characteristic frequencies of a piezoelectric resonator
+
+
+
+
+
+Frequencies fm & fn corresponds to minimum and maximum impedance
+Frequencies at which reactance Xe = 0, are the resonant and anti-resonant frequencies fr & fa
+
+
+	
+
+
+
+
+
+
+
+
+Evaluation of electromechanical parameters using equivalent circuit analysis
+
+Equivalent circuit of a piezoelectric resonator
+
+
+
+
+R
+
+
+G	  1
+L	b
+b
+
+
+
+
+Ca
+
+
+
+R – Motional resistance	L – Motional inductance
+Rb – Shunt resistance
+
+
+
+Ca– Motional capacitance
+Cb– Shunt capacitance
+
+Simulated values of piezoelectric equivalent circuit parameters R, L, Ca, Cb and Rb
+for fundamental radial mode and its overtone
+
+
+
+Significance of equivalent circuit parameters
+
+
+
+R represents mechanical dissipation of the piezoelectric resonator.
+L represents mass transformed into electrical magnitude by piezoelectric effect.
+Ca represents elastic compliance transformed into electrical magnitude by piezoelectric effect.
+Cb	is the capacitance in the absence of mechanical deformations at the concerned frequency of
+resonance
+Rb is the loss associated with Cb
+In general, these parameters are independent of frequency
+This is true only for a narrow range of frequencies near the resonance frequency
+
+Determination of electromechanical parameters according to IEEE std.
+
+For Gb→0 the impedance of this circuit is given
+
+
+Z	=
+
+
+
+=  Z ∠θ
+= Re + jXe
+
+Capacitive ratio r = CbൗC
+R
+
+
+G	  1
+
+M =
+= 1Τ
+L	b
+b
+
+
+ωs = 2π fs =
+Ca
+ωp = 2π fp = ωs
+
+
+(Proc. IRE 45, 354(1957))
+
+
+Determination of electromechanical parameters according to IEEE std.
+
+
+The planar coupling coefficient KP can be determined
+
+  K2
+1−K2 =
+Here ∆fps =fp-fs. J0 & J1 are the Bessel function of first kind and zero order and first order
+E is the Poisson’s ratio
+
+
+φ is the lowest positive root of the equation
+J1
+= φJ0
+
+The roots of this equation are related the resonant frequencies of fundamental and overtones of
+radial mode of the thin circular discs.
+2	2
+The coupling coefficient K31 can be determined as K	= 0.5
+
+
+
+(Proc. IRE 49, 1161(1961))
+
+Determination of electromechanical parameters according to IEEE std.
+
+The elastic compliance can be calculated from
+
+1	4π2a2f 2 1 − σE2	ρ
+E	=	φ2
+11
+Here ‘a’ is the radius of the disk and ‘’ is the density of the material
+
+
+The piezoelectric strain constant d31
+= K31
+1Τ2
+
+Hydrostatic piezoelectric strain constant dh = d33 + 2d31
+
+
+Piezoelectric voltage constants g31 =
+d31Τε0εT	, g33 =
+d33Τε0εT
+
+
+
+Acoustical velocity V2 = 1Τ
+11	ρ
+
+
+
+Here 𝜀𝑇	is the dielectric constant and d
+is negative
+
+Calculation of Poisson’s ratio
+
+
+Poisson’s ratio can be calculated from the ratio of resonance frequencies of fundamental and first overtone
+σE = −
+
+
+
+J1
+
+3
+= φJ0
+2
+
+
+
+
+φiV
+
+1	2
+2 1Τ2	1
+
+ωφi =
+a	1 − 3 γiφi
+, Where γi=1 for all ’s.	0
+
+
+
+•
+
+
+2
+=
+
+
+
+2
+
+
+-1
+
+
+
+
+
+-2
+
+
+
+
+
+-3
+0	2	4	6	8	10	12
+
+
+
+
+
+
+
+Evaluation of electromechanical parameters through
+direct measurement of fs and fp
+
+Direct measurement of fs, fp and calculation of electromechanical parameters
+
+At the series resonant frequency fs, real part of	𝜔	is maximum
+
+At parallel resonant frequency fp, the real part of ωZ
+is maximum
+
+
+
+ 
+S. Sherrit, N. Gautheir, H. D. Wiederick and B. K. Mukherjee, Ferroelectrics. 119, 17 (1991).
+
+Direct measurement of fs, fp and calculation of electromechanical parameters
+
+
+The admittance of radial resonator is given as
+
+
+
+𝑌
+−jω ε0𝗌𝑝	πa2
+=
+𝑡
+− 1 ,	𝐽
+= xJ0 𝑥
+𝐽1 𝑥
+,	𝑥 =	ωa
+
+
+Once the 𝜎𝑝 and p are known 𝑘𝑝 can be determined from
+
+
+2 =
+2
+
+
+
+
+
+
+
+
+IEEE Standards on Piezoelectricity, 176 (1978).
+
+Direct measurement of fs, fp and calculation of electromechanical parameters
+
+
+
+
+
+Knowing fs
+and fp
+of the fundamental and first harmonic 𝜎𝑝and 𝑐𝑝	can be determined by the non-linear
+
+
+least square polynomial fits of the equations
+𝜂 = 𝑎0 + 𝑎1𝑟𝑠 + 𝑎2𝑟2 + 𝑎3	3
+
+
+𝜎𝑝 = 𝑏0 + 𝑏1𝑟𝑠 + 𝑏
+𝑟2 + 𝑏
+𝑟3 + 𝑏
+𝑟4
+
+
+
+The coefficients {an, bn} are taken from Table I of Sherrit et al. [7] and rs is defined as 𝑟𝑠 =
+𝑓𝑠
+ൗ𝑓𝑠
+
+
+
+
+𝜂 can be evaluated from 𝜂 = 2π f𝑠
+0 𝑎
+1Τ2
+
+Direct measurement of fs, fp and calculation of electromechanical parameters
+
+
+
+Poisson’s ratio 𝜎𝑝, radial mode coupling coefficient 𝑘𝑝, piezoelectric constant 𝑒𝑝	, dielectric constant 𝜀𝑝	and
+31	33
+and mechanical constants 𝑐𝑝	are defined as
+
+
+
+𝜎𝑝 =
+−𝑠𝐸
+ൗ𝑠𝐸	, 𝜀𝑝
+2
+= 𝜀′ −	31	, 𝑐𝑝
+𝐸
+=	11	,
+
+12	11
+33
+𝗌0
+11	2−	2
+
+
+
+
+𝑒𝑝	=	𝑑31
+
+,
+𝑝	2
+2 =	𝑒31	,
+
+31	𝑠𝐸	+𝑠𝐸
+𝗌0𝗌𝑝	𝑐𝑝
+
+11	12
+33 11
+
+The planar coupling coefficient KP as defined earlier is related to radial mode coupling coefficient kp as
+
+
+2 = 1+𝜎𝑝
+2
+  𝐾2
+1−𝐾2
+
+
+
+IEEE Standards on Piezoelectricity, 176 (1978).
+
+Comparison of results obtained from two approaches
+
+
+
+
+
+Pb(Zr
+Ti	)O
++ x at % of La,
+
+0.57,	0.43	3
+where x = 3, 5, 6, 8, 10 and 12
+
+
+Close agreement between two approaches, and either of the methods are valid for low loss piezoelectric materials
+For lossy piezoelectric materials, e.g. ceramic polymer composites one should consider the constants as complex parameters
+
+
+Shukla et al(2004): Ferroelectrics, 308:1, 67-84
+
+σfecεk11s33121311P
+
+Comparison of results obtained from two approaches
+
+
+
+
+Equivalent circuit analysis	Direct measurement of fs and fp
+
+
+Development of doped barium zirconate titanate (BZT) based piezoelectric ceramics for acoustic emission sensor applications
+
+
+
+
+
+
+
+Developed for DMRL, Hyderabad, supplied ~400g powder and ~20 sintered discs with density >95%
+
+Piezoelectric response of Cd-doped BCZT ceramics
+
+
+
+Salma et al. Ceramics International 51 (2025) 41251–41263
+
+
+
+
+Applications of Piezoelectric Materials
+
+
+Applications of Piezoelectric Materials
+
+
+
+
+Generators
+(millivolts to kilovolts)
+Motors
+(microns to millimeters)
+
+
+
+Hydrophones
+Microphones
+Gas igniters
+Accelerometer
+Power supplies
+Photoflash actuators
+Piezoelectric pens
+Impact fuses
+Composites
+Energy harvesting
+Actuators
+Loudspeakers
+Camera shutters
+Buzzers
+Ink jet printers
+Fish finders
+Micropositioners
+Valve controllers
+Pumps
+Video head positioner
+Ultrasonic motors
+Piezoelectric fans
+Relays
+
+Applications contd.
+
+
+
+
+
+
+
+Motor – Generator
+(combination devices)
+
+Sonar
+Non – destructive testing (NDT)
+Medical ultrasound
+Resonant devices
+(kilohertz to megahertz)
+Ultrasonic cleaners
+Ultrasonic welders
+Filters
+Transformers
+
+
+Piezoelectric Gas Igniter
+A piezoelectric crystal is the heart of the gas igniter.
+When a strong force is applied on it by means of a spring loaded hammer it produces an electric spark.
+Requires no batteries or fuel
+
+Piezoelectric Actuators
+
+Displacement of up to several hundreds of microns with high
+accuracy (  0.01 µm)
+
+High Response time on the order of 10 µs.
+
+Generative force as large as 400 kg/cm2
+
+Driving	power	an	order	of	magnitude	smaller	than electromagnetic motors
+
+	
+
+Piezoelectric Motor
+
+
+
+
+SQUIGGLE* Linear Piezoelectric Motor
+only 1.55x1.55x6 millimeters
+
+
+Uses  less  than
+0.1    Watt    to
+produce 20 grams of force at 5 mm per second.
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Registered trademark of New Scale Technologies, Inc., USA
+
+
+Auto focusing in camera installed cell phones
+
+
+Flexure guide
+
+Retracted Lens
+
+
+
+
+
+
+Motor
+
+Extended Lens
+
+
+
+
+Courtesy New Scale Technologies, Inc., USA
+
+Piezoelectric Biosensors
+
+Blood, urine and saliva analysis
+HIV, Anthrex and Hepatitis detection
+Lab on a chip
+Work is in preliminary stage at international level
+
+Schematic diagram of a piezoelectric biosensor
+
+
+
+
+Courtesy www.biomed.drexler.edu/technologyportfolio
+
+Acoustic Emission Sensor
+
+Acoustic Emission (AE) can be defined as the vibration or stress waves generated during dynamic process in materials.
+AE monitoring system consists basically of a detector or pick-up to detect the material’s noise vibration and convert it to an equivalent electrical signal.
+
+Ultrasound Imaging
+
+After	X-rays,	the	ultrasound	imaging	is	most	extensively	used	technique	in biomedical field.
+The ultrasound is a safe, real time, accurate, reliable, portable and cost effective imaging technique.
+It is used for characterizing the heart function, monitoring the growth of fetus in womb, locate cyst in liver / kidney, and assess carotid plaques and breast tumor
+Ultrasound imaging is less hazardous to soft tissues
+
+Ultrasound imaging
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Acoustic matching layer
+Acoustic lens
+Coupling layer
+
+
+
+A K Shukla, S L Srivastava, Smart Materials : Piezoelectrics, Nova Science Publisher, USA, 2012
+
+Ultrasound Imaging
+
+The ultrasound imaging uses pulse echo technique for imaging of the biological organs.
+The piezoelectric materials generate and sense the acoustical signals and, therefore, suited for pulse echo measurements.
+The piezoelectric transducer sends the ultrasonic pulse which senses the echoes also from the various obstacles in the path.
+
+Energy Harvesting
+
+
+The search for environment friendly alternative energy sources is need of the day to overcome future energy problems.
+Extraction of energy from the external sources of environment (solar power, thermal energy, wind energy, salinity gradients, and kinetic energy), and storage for further utilization.
+
+Piezoelectric Energy Harvesting
+The vibrating strain energy is converted in the electrical energy using a piezoelectric system.
+This energy is stored using a rectifier into a capacitor bank up to a pre defined voltage.
+Exceeding this voltage, the power is
+transferred to the load.
+
+Piezoelectric Energy Harvesting
+
+
+
+
+
+Acknowledgements
+
+DDP, DST; ARDB, and ER&IPR, DRDO for grant of research projects
+Amity University for providing necessary facilities
+Late Dr. A R James, SC’G’, DMRL, Hyderabad for VIS measurement for ARDB, DRDO
+project
+Prof. K Sreenivas, University of Delhi, and Dr. O P Thakur, SC’G’, SSPL, New Delhi for many
+useful scientific discussions and support
+
+
+
+
+THANK YOU
